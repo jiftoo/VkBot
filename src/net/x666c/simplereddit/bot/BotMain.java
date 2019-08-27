@@ -42,12 +42,12 @@ public class BotMain {
 			e1.printStackTrace();
 		}
 		
-		new Thread(() -> {
+		/*new Thread(() -> {
 			try {
 				Thread.sleep(2700);
 			} catch (InterruptedException e) {}
 			System.out.println("Started");
-		}).start();
+		}).start();*/
 		
 		// Vk ------------------------------------------------------------------
 		
@@ -185,7 +185,7 @@ public class BotMain {
 			}
 		});
 		
-		new Thread(() -> {
+		/*new Thread(() -> {
 			try {
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {}
@@ -193,7 +193,7 @@ public class BotMain {
 			
 			deletionQueue.forEach(File::delete);
 			deletionQueue.clear();
-		}).start();
+		}).start();*/
 	}
 	
 	private static final ArrayList<File> deletionQueue = new ArrayList<>();
