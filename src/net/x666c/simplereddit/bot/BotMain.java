@@ -1,6 +1,7 @@
 package net.x666c.simplereddit.bot;
 
 import java.io.File;
+import java.net.ServerSocket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -35,6 +36,12 @@ public class BotMain {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		try {
+			ServerSocket s = new ServerSocket(Integer.parseInt(System.getenv("PORT")));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 		new Thread(() -> {
 			try {
 				Thread.sleep(2700);
