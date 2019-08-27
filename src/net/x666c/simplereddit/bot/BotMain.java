@@ -29,7 +29,7 @@ public class BotMain {
 	private static List<String> randomSubreddits;
 	static {
 		try {
-			randomSubreddits = Files.readAllLines(Paths.get("C:\\Users\\User\\Desktop\\subreddits_filtered.txt"));
+			randomSubreddits = Arrays.asList(SubredditsFiltered.SUBREDDITS.split("\r\n"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
