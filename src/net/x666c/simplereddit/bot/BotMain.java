@@ -1,19 +1,11 @@
 package net.x666c.simplereddit.bot;
 
-import java.io.File;
 import java.net.ServerSocket;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
-import org.apache.log4j.Appender;
 import org.apache.log4j.BasicConfigurator;
 
 import com.petersamokhin.bots.sdk.callbacks.Callback;
@@ -39,19 +31,12 @@ public class BotMain {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		try {
-			ServerSocket s = new ServerSocket(Integer.parseInt(System.getenv("PORT")));
-			System.out.println("Heroku port: " + System.getenv("PORT"));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
 		BasicConfigurator.configure();
 		
 		// Vk ------------------------------------------------------------------
 		
 		Group group = new Group("6b49194f54d1b9c69717059c7ed7910bda1d548f7da9ce2ef406274a17f3cc7f4abac21fd951cf32a8599");
-		group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", 80, "/", true, false));
+		group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", Integer.parseInt(System.getenv("PORT")), "/", true, false));
 		
 		/*group.onSimpleTextMessage(msg -> {
 			System.out.print("Got a message: '" + msg.getText() + "'");
