@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
 import com.petersamokhin.bots.sdk.callbacks.Callback;
 import com.petersamokhin.bots.sdk.clients.Group;
@@ -31,6 +35,7 @@ public class BotMain {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		Logger.getRootLogger().setLevel(Level.INFO);
 		BasicConfigurator.configure();
 		
 		// Vk ------------------------------------------------------------------
