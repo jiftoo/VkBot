@@ -13,6 +13,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Appender;
+import org.apache.log4j.BasicConfigurator;
+
 import com.petersamokhin.bots.sdk.callbacks.Callback;
 import com.petersamokhin.bots.sdk.clients.Group;
 import com.petersamokhin.bots.sdk.objects.Message;
@@ -38,16 +41,12 @@ public class BotMain {
 	public static void main(String[] args) throws Exception {
 		try {
 			ServerSocket s = new ServerSocket(Integer.parseInt(System.getenv("PORT")));
+			System.out.println("Heroku port: " + System.getenv("PORT"));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		
-		/*new Thread(() -> {
-			try {
-				Thread.sleep(2700);
-			} catch (InterruptedException e) {}
-			System.out.println("Started");
-		}).start();*/
+		BasicConfigurator.configure();
 		
 		// Vk ------------------------------------------------------------------
 		
@@ -184,44 +183,6 @@ public class BotMain {
 				.send((Callback<Object>[]) null);
 			}
 		});
-		
-		/*new Thread(() -> {
-			try {
-				Thread.sleep(60000);
-			} catch (InterruptedException e) {}
-			System.out.println("Cleanup");
-			
-			deletionQueue.forEach(File::delete);
-			deletionQueue.clear();
-		}).start();*/
 	}
 	
-	private static final ArrayList<File> deletionQueue = new ArrayList<>();
-	
-	private static File makeVoice(String msgId, String voicedString) {
-		if(msgId == null) {
-			msgId = Stream.generate(() -> String.valueOf(ThreadLocalRandom.current().nextInt(0,9))).limit(9).reduce("", String::concat);
-		}
-		try {
-			Process proc = Runtime.getRuntime()
-					.exec("\"D:\\Development\\Java\\Workspaces\\Big projects\\VkSubredditBot\\govor.exe\" "
-							+ "-TO \"D:\\Development\\Java\\Workspaces\\Big projects\\VkSubredditBot\\voice\\voice" + msgId + ".wav\" "
-							+ "-I "
-							+ "\"" + voicedString + "\"");
-			System.out.println("Waiting for: " + (1500 + (voicedString.length() * 50)) + " milliseconds");
-			if(!proc.waitFor(1500 + (voicedString.length() * 50), TimeUnit.MILLISECONDS)) {
-				System.err.println("Govor still hasn't finished");
-			}
-			File voiceFile = new File("D:\\Development\\Java\\Workspaces\\Big projects\\VkSubredditBot\\voice\\voice" + msgId + ".wav");
-			if(!voiceFile.exists()) {
-				System.out.println("File doesnt exist!");
-			} else {
-				voiceFile.deleteOnExit(); // Just to be sure
-				return voiceFile;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 }
