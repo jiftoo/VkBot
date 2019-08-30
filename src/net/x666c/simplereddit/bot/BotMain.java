@@ -35,9 +35,9 @@ public class BotMain {
 		int PORT_ENV = 80;
 		try {
 			PORT_ENV = Integer.parseInt(System.getenv("PORT"));
-			System.err.println("Running on heroku");
+			System.out.println("*******Running on heroku*******");
 		} catch (Exception e) {
-			System.err.println("Running on local machine");
+			System.out.println("*******Running on local machine*******");
 		}
 		group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", PORT_ENV, "/", true, false));
 		
