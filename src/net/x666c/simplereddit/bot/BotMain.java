@@ -37,7 +37,7 @@ public class BotMain {
 		//group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", 80, "/", true, false));
 		
 		MessageResolver mr = new MessageResolver(group);
-		processor = new CommandProcessor(group, "r3d");
+		processor = new CommandProcessor(group, "r");
 		
 		{
 			processor.addCommand("list", new Command(0, (o, args) -> {

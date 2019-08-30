@@ -25,8 +25,8 @@ public class MessageResolver {
 		String[] ret = text.split(" ");
 		
 		if(isMention(ret))
-			return Arrays.copyOfRange(ret, 1, ret.length);
-		return ret;
+			return Arrays.copyOfRange(ret, 2, ret.length);
+		return Arrays.copyOfRange(ret, 1, ret.length); // Adapt to prefix
 	}
 	
 	
