@@ -9,6 +9,7 @@ import com.petersamokhin.bots.sdk.clients.Group;
 
 import net.x666c.simplereddit.Post;
 import net.x666c.simplereddit.Reddit;
+import net.x666c.simplereddit.bot.BotMain;
 
 public class MessageResolver {
 	
@@ -17,6 +18,15 @@ public class MessageResolver {
 	
 	public MessageResolver(Group group) {
 		this.group = group;
+	}
+	
+	public boolean isMessageForBot(JSONObject msg) {
+		String text = msg.getString("text");
+		String[] ret = text.split(" ");
+		if(isMention(ret))
+			ret = Arrays.copyOfRange(ret, 1, ret.length);
+		
+		return ret[0].equals(BotMain.processor.botPrefix);
 	}
 	
 	public String[] tokenize(JSONObject msg) {

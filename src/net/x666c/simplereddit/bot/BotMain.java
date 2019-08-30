@@ -2,6 +2,7 @@ package net.x666c.simplereddit.bot;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -21,7 +22,7 @@ public class BotMain {
 	
 	public static final List<String> randomSubs = Arrays.asList(SubredditsFiltered.SUBREDDITS.split("\r\n"));
 	
-	private static CommandProcessor processor;
+	public static CommandProcessor processor;
 	
 	public static void main(String[] a) throws Exception {
 		Logger.getRootLogger().setLevel(Level.INFO);
@@ -31,10 +32,10 @@ public class BotMain {
 		
 		Group group = new Group("6b49194f54d1b9c69717059c7ed7910bda1d548f7da9ce2ef406274a17f3cc7f4abac21fd951cf32a8599");
 		
-		group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", Integer.parseInt(System.getenv("PORT")), "/", true, false));
+		//group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", Integer.parseInt(System.getenv("PORT")), "/", true, false));
 		
 		// FOR LOCAL TESTING:
-		//group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", 80, "/", true, false));
+		group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", 80, "/", true, false));
 		
 		MessageResolver mr = new MessageResolver(group);
 		processor = new CommandProcessor(group, "r");
@@ -47,10 +48,25 @@ public class BotMain {
 				sendMessage(group, o, "Changed prefix: "+processor.botPrefix+" -> "+args[0]);
 				processor.botPrefix = args[0];
 			}));
+			processor.addCommand("koldun", new Command(1, (o, args) -> {
+				if(args[0].equals("0"))
+				{
+					for (int i = 0; i < 10; i++) {
+						sendMessage(group, o, "блять колдун");
+					}
+				}
+				else if(args[0].equals("1"))
+				{
+					for (int i = 0; i < 10; i++) {
+						sendMessage(group, o, "Колдун когда камыш?" + "??????".substring(0, new Random().nextInt(5)));
+					}
+				}
+			}));
 		}
 		
 		group.onMessageNew(json -> {
-			System.out.println(json.toString());
+			if(!mr.isMessageForBot(json))
+				return;
 			try {
 				System.out.println("Got a chat message: '" + json.getString("text") + "'");
 				
@@ -59,24 +75,15 @@ public class BotMain {
 				String messageNoMention = String.join(" ", tokens);
 				String messageNoMentionNoPrefix = messageNoMention.replaceFirst(processor.botPrefix, "");
 				
-				System.out.println(Arrays.toString(tokens));
+				System.out.println("Tokenized: " + Arrays.toString(tokens));
 				
-				// Special cases (do not follow the standard)
-				if (tokens[1].equals("reddit") && tokens.length >= 3) {
+				// Special case (doesn't follow the standard)
+				if (tokens[0].equals("reddit") && tokens.length >= 3) {
 					mr.resolveReddit(tokens, json);
-				} else if(message.toLowerCase().contains("блять колдун")) {
-					for (int i = 0; i < 10; i++) {
-						new Message()
-						.from(group)
-						.to(json.getInt("peer_id"))
-						.text("блять+колдун")
-						.send((Callback<Object>[]) null);
-					}
 				// The rest
 				} else {
-					if(tokens[0].equals(processor.botPrefix))
-						if(!processor.executeCommand(tokens[1], json, Arrays.copyOfRange(tokens, 2, tokens.length)))
-							sendMessage(group, json, "Invalid command: " + messageNoMentionNoPrefix);
+					if(!processor.executeCommand(tokens[0], json, Arrays.copyOfRange(tokens, 1, tokens.length)))
+						sendMessage(group, json, "Invalid command: " + messageNoMentionNoPrefix);
 				}
 			} catch (Exception e) {
 				sendMessage(group, json, "Exception: " + e.toString());
