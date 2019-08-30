@@ -1,0 +1,1 @@
+web: java -cp target/subrbot-1.0-jar-with-dependencies.jar net.x666c.simplereddit.bot.BotMain
