@@ -62,7 +62,7 @@ public class BotMain {
 				System.out.println(Arrays.toString(tokens));
 				
 				// Special cases (do not follow the standard)
-				if (tokens[0].equals("reddit") && tokens.length == 3) {
+				if (tokens[0].equals("reddit") && tokens.length >= 3) {
 					mr.resolveReddit(tokens, json);
 				} else if(message.toLowerCase().contains("блять колдун")) {
 					for (int i = 0; i < 10; i++) {
