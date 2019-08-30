@@ -32,10 +32,10 @@ public class BotMain {
 		
 		Group group = new Group("6b49194f54d1b9c69717059c7ed7910bda1d548f7da9ce2ef406274a17f3cc7f4abac21fd951cf32a8599");
 		
-		//group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", Integer.parseInt(System.getenv("PORT")), "/", true, false));
+		group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", Integer.parseInt(System.getenv("PORT")), "/", true, false));
 		
 		// FOR LOCAL TESTING:
-		group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", 80, "/", true, false));
+		//group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", 80, "/", true, false));
 		
 		MessageResolver mr = new MessageResolver(group);
 		processor = new CommandProcessor(group, "r");
