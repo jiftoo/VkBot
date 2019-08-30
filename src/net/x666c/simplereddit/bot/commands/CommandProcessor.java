@@ -11,8 +11,11 @@ public class CommandProcessor {
 	private final HashMap<String, Command> commands = new HashMap<>();
 	private final Group group;
 	
-	public CommandProcessor(Group g) {
+	public String botPrefix;
+	
+	public CommandProcessor(Group g, String botPrefix) {
 		group = g;
+		this.botPrefix = botPrefix;
 	}
 	
 	public void addCommand(String name, Command c) {
@@ -23,7 +26,7 @@ public class CommandProcessor {
 		return commands.get(name);
 	}
 	
-	public boolean excuteCommand(String name, JSONObject o, String... arguments) {
+	public boolean executeCommand(String name, JSONObject o, String... arguments) {
 		if(commands.containsKey(name)) {
 			getCommandObject(name).execute(o, arguments);
 			return true;

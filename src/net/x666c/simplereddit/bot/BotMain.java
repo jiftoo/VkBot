@@ -37,11 +37,15 @@ public class BotMain {
 		//group.callbackApi(new CallbackApiSettings("1515c4a2", "localhost", 80, "/", true, false));
 		
 		MessageResolver mr = new MessageResolver(group);
-		processor = new CommandProcessor(group);
+		processor = new CommandProcessor(group, "r3d");
 		
 		{
 			processor.addCommand("list", new Command(0, (o, args) -> {
 				sendMessage(group, o, "да йобана мне лень все команды записывать чичас, но тут по идее должен их список быть");
+			}));
+			processor.addCommand("setprefix", new Command(1, (o, args) -> {
+				sendMessage(group, o, "Changed prefix: "+processor.botPrefix+" -> "+args[0]);
+				processor.botPrefix = args[0];
 			}));
 		}
 		
@@ -68,8 +72,9 @@ public class BotMain {
 					}
 				// The rest
 				} else {
-					if(!processor.excuteCommand(tokens[0], json, Arrays.copyOfRange(tokens, 1, tokens.length)))
-						sendMessage(group, json, "Invalid command: " + message);
+					if(tokens[0].equals(processor.botPrefix))
+						if(!processor.executeCommand(tokens[1], json, Arrays.copyOfRange(tokens, 2, tokens.length)))
+							sendMessage(group, json, "Invalid command: " + message);
 				}
 			} catch (Exception e) {
 				sendMessage(group, json, "Exception: " + e.toString());
