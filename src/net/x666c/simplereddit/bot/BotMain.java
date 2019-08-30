@@ -57,7 +57,7 @@ public class BotMain {
 				String[] tokens = mr.tokenize(json);
 				String message = json.getString("text");
 				String messageNoMention = String.join(" ", tokens);
-				String messageNoMentionNoPrefix = messageNoMention.replaceFirst(String.format(processor.botPrefix, ""), messageNoMention);
+				String messageNoMentionNoPrefix = messageNoMention.replaceFirst(processor.botPrefix, messageNoMention);
 				
 				System.out.println(Arrays.toString(tokens));
 				
