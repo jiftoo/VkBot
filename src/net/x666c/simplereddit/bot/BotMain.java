@@ -54,8 +54,10 @@ public class BotMain {
 			try {
 				System.out.println("Got a chat message: '" + json.getString("text") + "'");
 				
-				String message = json.getString("text");
 				String[] tokens = mr.tokenize(json);
+				String message = json.getString("text");
+				String messageNoMention = String.join(" ", tokens);
+				String messageNoMentionNoPrefix = messageNoMention.replaceFirst(String.format(processor.botPrefix, ""), messageNoMention);
 				
 				System.out.println(Arrays.toString(tokens));
 				
@@ -74,7 +76,7 @@ public class BotMain {
 				} else {
 					if(tokens[0].equals(processor.botPrefix))
 						if(!processor.executeCommand(tokens[1], json, Arrays.copyOfRange(tokens, 2, tokens.length)))
-							sendMessage(group, json, "Invalid command: " + message);
+							sendMessage(group, json, "Invalid command: " + messageNoMentionNoPrefix);
 				}
 			} catch (Exception e) {
 				sendMessage(group, json, "Exception: " + e.toString());
