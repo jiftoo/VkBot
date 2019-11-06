@@ -62,7 +62,7 @@ public class BotMain {
 				else if(args[0].equals("1"))
 				{
 					for (int i = 0; i < 10; i++) {
-						sendMessage(group, o, "Колдун когда камыш?" + "??????".substring(0, new Random().nextInt(5)));
+						sendMessage(group, o, "Колдун когда артворк?" + "??????".substring(0, new Random().nextInt(5)));
 					}
 				}
 			}));
